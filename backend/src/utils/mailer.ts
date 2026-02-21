@@ -1,34 +1,22 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: Number(process.env.MAIL_PORT),
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendResetCodeEmail(to: string, code: string) {
-  await transporter.sendMail({
-    from: '"Autism App" <no-reply@autismapp.com>',
+  await resend.emails.send({
+    from: "Autism App <onboarding@resend.dev>",
     to,
     subject: "Password Reset Code",
-    text: `Your reset code is: ${code}`,
     html: `<h2>Your reset code is: <strong>${code}</strong></h2><p>Valid for 10 minutes.</p>`,
   });
 }
 
 export async function sendVerificationEmail(to: string, token: string) {
   const link = `${process.env.APP_URL}/auth/verify-email?token=${token}`;
-  await transporter.sendMail({
-    from: '"Autism App" <no-reply@autismapp.com>',
+  await resend.emails.send({
+    from: "Autism App <onboarding@resend.dev>",
     to,
     subject: "Verify Your Email",
-    text: `Click the link to verify your email: ${link}`,
     html: `
       <h2>Welcome to Autism App! 👋</h2>
       <p>Click the button below to verify your email address.</p>
