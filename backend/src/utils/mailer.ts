@@ -22,9 +22,8 @@ export async function sendResetCodeEmail(to: string, code: string) {
   });
 }
 
-
 export async function sendVerificationEmail(to: string, token: string) {
-  const link = `http://localhost:4000/auth/verify-email?token=${token}`;
+  const link = `${process.env.APP_URL}/auth/verify-email?token=${token}`;
   await transporter.sendMail({
     from: '"Autism App" <no-reply@autismapp.com>',
     to,
