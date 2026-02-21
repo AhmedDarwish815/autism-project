@@ -13,6 +13,7 @@ const envSchema = z.object({
     MAIL_PASS: z.string().min(1, "MAIL_PASS is required"),
     GROQ_API_KEY: z.string().min(1, "GROQ_API_KEY is required"),
     AI_API_URL: z.string().default("http://127.0.0.1:5000/predict"),
+    APP_URL: z.string().default("http://localhost:4000"),
 });
 
 const parsed = envSchema.safeParse(process.env);
